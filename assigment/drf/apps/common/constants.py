@@ -8,12 +8,13 @@ ROLES={
 
 }
 
-ApprovedStages={
-    {'PENDING',"pending"},
-    {"APPROVED",'approved'},
-    {},
-
-}
+STAGE_CHOICES = (
+    ("DRAFT", "Draft"),
+    ("REVIEW", "Review"),
+    ("REVISION", "Revision"),
+    ("APPROVED", "Approved"),
+    ("COMPLETED", "Completed"),
+)
 Notification={
     {"Comment",'comment'},
     {"Task",'task'},
