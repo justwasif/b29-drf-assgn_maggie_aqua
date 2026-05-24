@@ -1,9 +1,10 @@
 from django.urls import path, include
-from .views import ProjectViewSet
+from .views import ProjectViewSet, TaskViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register('projects', ProjectViewSet, basename='projects')
+router.register('tasks', TaskViewSet, basename='tasks')
 
 urlpatterns = [
     path('', include(router.urls)),
