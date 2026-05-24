@@ -38,6 +38,14 @@ class Task(TimeStampe):
     description=models.TextField()
     created_by=models.ForeignKey(User,on_delete=models.CASCADE,related_name='created_tasks')
     assigned_to=models.ForeignKey(User,on_delete=models.CASCADE,related_name='assigned_tasks')
+    deadline=models.DateTimeField(null=True,blank=True)
+    PRIORITY_CHOICES = [
+        ('LOW', 'Low'),
+        ('MEDIUM', 'Medium'),
+        ('HIGH', 'High'),
+    ]
+    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='MEDIUM')
+
     def __str__(self):
         return self.title
     
