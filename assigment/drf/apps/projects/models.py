@@ -9,9 +9,9 @@ class project(TimeStampe):
     studio=models.ForeignKey(Studio,on_delete=models.CASCADE)
     title=models.CharField(max_length=50)
     description=models.CharField(max_length=50)
-    created_by=models.ForeignKey(User,on_delete=models.CASCADE)
-    lead_by=models.ForeignKey(User,on_delete=models.CASCADE)
-    current_stage=models.ForeignKey(Stage,on_delete=models.CASCADE)
+    created_by=models.ForeignKey(User,on_delete=models.CASCADE,related_name='created_projects')
+    lead_by=models.ForeignKey(User,on_delete=models.CASCADE,related_name='lead_projects')
+   # current_stage=models.ForeignKey(Stage,on_delete=models.CASCADE)
     def __str__(self):
         return self.title
 
@@ -33,11 +33,11 @@ class Stage(TimeStampe):
     
 class Task(TimeStampe):
     project=models.ForeignKey(project,on_delete=models.CASCADE)
-    stage=models.ForeignKey(Stage,on_delete=models.CASCADE,default='Draft')
+    stage=models.ForeignKey(Stage,on_delete=models.CASCADE,null=True,blank=True)
     title=models.CharField(max_length=100)
     description=models.TextField()
-    created_by=models.ForeignKey(User,on_delete=models.CASCADE)
-    assigned_to=models.ForeignKey(User,on_delete=models.CASCADE)
+    created_by=models.ForeignKey(User,on_delete=models.CASCADE,related_name='created_tasks')
+    assigned_to=models.ForeignKey(User,on_delete=models.CASCADE,related_name='assigned_tasks')
     def __str__(self):
         return self.title
     
@@ -45,22 +45,23 @@ class StageApproval(TimeStampe):
     stage = models.ForeignKey(
         Stage,
         on_delete=models.CASCADE,
-     
+        related_name='approvals'
     )
 
     proposed_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name='proposed_approvals'
     )
 
     approved_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        
+        related_name='approved_approvals'
     )
     status = models.CharField(
         max_length=50,
-        choices=APPROVAL_STATUS,
+       # choices=APPROVAL_STATUS,
         default="PENDING"
     )
 

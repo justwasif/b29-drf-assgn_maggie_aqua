@@ -1,4 +1,4 @@
-ROLES={
+ROLES=(
     {'ADMIN',"Admin"},
     {'PROJECT_LEAD','project lead'},
     {'WRITER',"writer"},
@@ -6,7 +6,7 @@ ROLES={
     {'CLIENT_VIEWER','client_viewer'},
     {"DESIGNER",'designer'}
 
-}
+)
 
 STAGE_CHOICES = (
     ("DRAFT", "Draft"),
@@ -15,9 +15,9 @@ STAGE_CHOICES = (
     ("APPROVED", "Approved"),
     ("COMPLETED", "Completed"),
 )
-Notification={
+Notification=(
     {"Comment",'comment'},
     {"Task",'task'},
     {"Stage","stage_moved"},
     {'Deadline','deadline'},
-}
+)
