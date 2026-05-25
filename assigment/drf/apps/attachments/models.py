@@ -1,10 +1,11 @@
 from django.db import models
 from apps.common.models import TimeStampe
+from apps.users.models import User
 from apps.projects.models import Task
 
-class Attachment(TimeStampe):
-    task=models.ForeignKey(Task,on_delete=models.CASCADE,related_name='attachments')
-    label=models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.label
+# Create your models here.
+class Task_Attachment(TimeStampe):
+    task=models.ForeignKey(Task,on_delete=models.CASCADE)
+    uploaded_by=models.ForeignKey(User,on_delete=models.CASCADE)
+    description=models.TextField()
+    file_url=models.CharField(max_length=2000)

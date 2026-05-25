@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from .models import Attachment
+from .models import Task_Attachment
 
-class AttachmentSerializer(serializers.ModelSerializer):
+class TaskAttachmentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Attachment
-        fields = ['id', 'task', 'label', 'created_at', 'updated_at']
-        
-
+        model = Task_Attachment
+        fields = ['id', 'task', 'uploaded_by', 'description', 'file_url', 'created_at', 'updated_at']
+        read_only_fields = ['uploaded_by']
