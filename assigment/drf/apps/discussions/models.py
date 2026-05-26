@@ -1,5 +1,4 @@
 from django.db import models
-
 from apps.common.models import TimeStampe
 from apps.users.models import User
 from apps.projects.models import (Task,Stage)
