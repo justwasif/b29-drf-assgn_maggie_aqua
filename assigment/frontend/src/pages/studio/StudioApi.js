@@ -23,3 +23,27 @@ export const createStudio=async(data)=>{
     })
     return response.data
 }
+
+export const createMembership = async (data) => {
+
+    const response = await axios.post(
+        `${APi}/studiomember/`,
+        data,
+        {
+            headers: {
+                Authorization: `Bearer ${token()}`
+            }
+        }
+    )
+
+    return response.data
+}
+
+export const getMembership=async ()=>{
+    const response=await axios.get(`${APi}/studiomember/`,{
+        headers:{
+            Authorization:`Bearer ${token()}`
+        }
+    })
+    return response.data
+}
