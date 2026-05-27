@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { getNotifications } from "./NotificationApi"
+import { Link } from "react-router-dom"
 
 export default function NotificationList() {
 
@@ -26,8 +27,13 @@ export default function NotificationList() {
 
     return (
         <div>
+            <div className="page-header">
+                <h1>Notifications</h1>
 
-            <h1>Notifications</h1>
+                <Link to="/createnotification">
+                    <button>Create Notification</button>
+                </Link>
+            </div>
 
             {
                 notifications.map((notification) => (

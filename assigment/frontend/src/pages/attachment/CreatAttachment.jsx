@@ -8,7 +8,7 @@ export default function CreateAttachment() {
     const [formData, setFormData] = useState({
         task: "",
         description: "",
-        file_url: null
+        file_url: ""
     })
 
     const handleChange = (e) => {
@@ -35,13 +35,7 @@ export default function CreateAttachment() {
 
         try {
 
-            const data = new FormData()
-
-            data.append("task", formData.task)
-            data.append("description", formData.description)
-            data.append("file_url", formData.file_url)
-
-            await createAttachment(data)
+            await createAttachment(formData)
 
             console.log("Attachment Uploaded")
             navigate("/attachmentlist")
@@ -75,8 +69,10 @@ export default function CreateAttachment() {
                 />
 
                 <input
-                    type="file"
+                    type="text"
                     name="file_url"
+                    placeholder="Paste file url"
+                    
                     onChange={handleChange}
                 />
 

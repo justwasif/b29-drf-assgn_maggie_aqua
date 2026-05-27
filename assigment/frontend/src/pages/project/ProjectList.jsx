@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { getProjects } from "./proujectapi"
+import { Link } from "react-router-dom"
 
 export default function ProjectList() {
 
@@ -27,7 +28,13 @@ export default function ProjectList() {
     return (
         <div>
 
-            <h1>Projects</h1>
+            <div className="page-header">
+                <h1>Projects</h1>
+
+                <Link to="/createproject">
+                    <button>Create Project</button>
+                </Link>
+            </div>
 
             {
                 projects.map((project) => (

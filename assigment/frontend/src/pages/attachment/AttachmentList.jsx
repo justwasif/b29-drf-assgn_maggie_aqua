@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { getAttachments } from "./taskapi"
-
-
 
 export default function AttachmentList() {
 
@@ -14,7 +13,6 @@ export default function AttachmentList() {
             try {
 
                 const data = await getAttachments()
-
                 setAttachments(data)
 
             } catch (error) {
@@ -30,20 +28,29 @@ export default function AttachmentList() {
     return (
         <div>
 
-            <h1>Attachments</h1>
+            <div className="page-header">
+
+                <h1>Attachments</h1>
+
+                <Link to="/createattachment">
+                    <button>Upload Attachment</button>
+                </Link>
+
+            </div>
 
             {
                 attachments.map((attachment) => (
 
-                    <div key={attachment.id}>
+                    <div key={attachment.id} className="card">
 
-                        <p>Task: {attachment.task}</p>
+                        <h3>Attachment #{attachment.id}</h3>
 
                         <p>{attachment.description}</p>
 
                         <a
-                            href={`${API_BASE}${attachment.file_url}`}
+                            href={attachment.file_url}
                             target="_blank"
+                            rel="noreferrer"
                         >
                             View File
                         </a>

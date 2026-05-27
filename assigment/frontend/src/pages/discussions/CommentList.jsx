@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { getComments } from "./DiscussionApi"
 
 export default function CommentList() {
@@ -27,16 +28,26 @@ export default function CommentList() {
     return (
         <div>
 
-            <h1>Comments</h1>
+            <div className="page-header">
+
+                <h1>Comments</h1>
+
+                <Link to="/createcomment">
+                    <button>Add Comment</button>
+                </Link>
+
+            </div>
 
             {
                 comments.map((comment) => (
 
-                    <div key={comment.id}>
-                        <p>Thread ID: {comment.thread}</p>
-                        <p>{comment.content}</p>
-                    </div>
+                    <div key={comment.id} className="card">
 
+                        <h3>Comment #{comment.id}</h3>
+
+                        <p>{comment.message}</p>
+
+                    </div>
                 ))
             }
 
