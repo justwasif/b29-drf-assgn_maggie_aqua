@@ -8,3 +8,5 @@ urlpatterns = [
     path('user/', CurrentUserView.as_view(), name='current-user'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh')
 ]
+
+# //http://127.0.0.1:8000/api/user/register

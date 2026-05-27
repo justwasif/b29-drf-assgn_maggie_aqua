@@ -1,104 +1,120 @@
-import React, { useState } from 'react';
+import { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 
-const Signup = () => {
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-        role: 'designer', // Matches default in your Django model
-    });
-    const [status, setStatus] = useState({ loading: false, error: null, success: false });
+const API_BASE = 'http://127.0.0.1:8000'
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+export default function Signup() {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    role: 'designer',
+  })
+  const [status, setStatus] = useState({ loading: false, error: null, success: false })
+  const navigate = useNavigate()
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setStatus({ loading: true, error: null, success: false });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/users/register/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setStatus({ loading: true, error: null, success: false })
 
-            const data = await response.json();
+    try {
+      const res = await fetch(`${API_BASE}/api/users/register/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json()
 
-            if (response.ok) {
-                setStatus({ loading: false, error: null, success: true });
-                // Optional: Redirect to login or clear form here
-            } else {
-                // Extracts error messages from DRF response
-                const errorMsg = data.email ? data.email[0] : (data.detail || 'Registration failed');
-                setStatus({ loading: false, error: errorMsg, success: false });
-            }
-        } catch (error) {
-            setStatus({ loading: false, error: 'Network error occurred', success: false });
-        }
-    };
+      if (res.ok) {
+        setStatus({ loading: false, error: null, success: true })
+        // Redirect to login after 1.5s so the user sees the success message
+        setTimeout(() => navigate('/login', { replace: true }), 1500)
+      } else {
+        // DRF returns field-level errors; pick the first one
+        const firstKey = Object.keys(data)[0]
+        const errorMsg = Array.isArray(data[firstKey])
+          ? data[firstKey][0]
+          : data.detail || 'Registration failed'
+        setStatus({ loading: false, error: errorMsg, success: false })
+      }
+    } catch {
+      setStatus({ loading: false, error: 'Network error. Is the server running?', success: false })
+    }
+  }
 
-    return (
-        <div>
-            <h2>Sign Up</h2>
-            
-            {status.error && <p style={{ color: 'red' }}>{status.error}</p>}
-            {status.success && <p style={{ color: 'green' }}>Registration successful! You can now log in.</p>}
-            
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Username: </label>
-                    <input 
-                        type="text" 
-                        name="username" 
-                        value={formData.username} 
-                        onChange={handleChange} 
-                        required 
-                    />
-                </div>
-                <div>
-                    <label>Email: </label>
-                    <input 
-                        type="email" 
-                        name="email" 
-                        value={formData.email} 
-                        onChange={handleChange} 
-                        required 
-                    />
-                </div>
-                <div>
-                    <label>Password: </label>
-                    <input 
-                        type="password" 
-                        name="password" 
-                        value={formData.password} 
-                        onChange={handleChange} 
-                        required 
-                    />
-                </div>
-                <div>
-                    <label>Role: </label>
-                    <select name="role" value={formData.role} onChange={handleChange}>
-                        <option value="admin">Admin</option>
-                        <option value="project_lead">Project Lead</option>
-                        <option value="designer">Designer</option>
-                        <option value="writer">Writer</option>
-                        <option value="reviewer">Reviewer</option>
-                        <option value="client">Client</option>
-                    </select>
-                </div>
-                <button type="submit" disabled={status.loading}>
-                    {status.loading ? 'Signing up...' : 'Sign Up'}
-                </button>
-            </form>
+  return (
+    <div style={{ maxWidth: 400, margin: '80px auto', padding: 24 }}>
+      <h2>Sign Up</h2>
+
+      {status.error && (
+        <p style={{ color: 'red', marginBottom: 12 }}>{status.error}</p>
+      )}
+      {status.success && (
+        <p style={{ color: 'green', marginBottom: 12 }}>
+          Registration successful! Redirecting to login…
+        </p>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: 12 }}>
+          <label>Username</label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+            style={{ display: 'block', width: '100%', padding: 8, marginTop: 4, boxSizing: 'border-box' }}
+          />
         </div>
-    );
-};
-
-export default Signup;
+        <div style={{ marginBottom: 12 }}>
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            style={{ display: 'block', width: '100%', padding: 8, marginTop: 4, boxSizing: 'border-box' }}
+          />
+        </div>
+        <div style={{ marginBottom: 12 }}>
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            style={{ display: 'block', width: '100%', padding: 8, marginTop: 4, boxSizing: 'border-box' }}
+          />
+        </div>
+        <div style={{ marginBottom: 16 }}>
+          <label>Role</label>
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            style={{ display: 'block', width: '100%', padding: 8, marginTop: 4, boxSizing: 'border-box' }}
+          >
+            <option value="admin">Admin</option>
+            <option value="project_lead">Project Lead</option>
+            <option value="designer">Designer</option>
+            <option value="writer">Writer</option>
+            <option value="reviewer">Reviewer</option>
+            <option value="client">Client</option>
+          </select>
+        </div>
+        <button type="submit" disabled={status.loading} style={{ padding: '8px 20px', marginRight: 10 }}>
+          {status.loading ? 'Signing up…' : 'Sign Up'}
+        </button>
+        <span>Already have an account? </span>
+        <Link to="/login">Login</Link>
+      </form>
+    </div>
+  )
+}

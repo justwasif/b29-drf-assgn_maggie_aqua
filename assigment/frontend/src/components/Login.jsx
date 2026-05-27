@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
-const API = 'http://127.0.0.1:8000/api/user/login'
+const API_BASE = 'http://127.0.0.1:8000'
 
 export default function Login() {
   const [form, setForm] = useState({ email: '', password: '' })
@@ -14,16 +14,18 @@ export default function Login() {
     setError('')
     setLoading(true)
     try {
-      const res = await fetch(`${API}`, {
+      const res = await fetch(`${API_BASE}/api/users/login/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify(form),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.message || 'Login failed')
-      localStorage.setItem('accessToken', data.data.accessToken)
-      localStorage.setItem('user', JSON.stringify(data.data.user))
+      if (!res.ok) {
+        throw new Error(data.detail || data.email?.[0] || 'Login failed')
+      }
+     
+      localStorage.setItem('accessToken', data.access)
+      localStorage.setItem('refreshToken', data.refresh)
       navigate('/', { replace: true })
     } catch (err) {
       setError(err.message)
@@ -35,18 +37,21 @@ export default function Login() {
   return (
     <div style={{ maxWidth: 400, margin: '80px auto', padding: 24 }}>
       <h2>Login</h2>
+      {error && (
+        <p style={{ color: 'red', marginBottom: 12 }}>{error}</p>
+      )}
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: 12 }}>
           <label>Email</label>
           <input
-            type="text"
+            type="email"
             value={form.email}
             onChange={e => setForm({ ...form, email: e.target.value })}
             required
             style={{ display: 'block', width: '100%', padding: 8, marginTop: 4, boxSizing: 'border-box' }}
           />
         </div>
-        <div style={{ marginBottom: 12 }}>
+        <div style={{ marginBottom: 16 }}>
           <label>Password</label>
           <input
             type="password"
@@ -57,8 +62,9 @@ export default function Login() {
           />
         </div>
         <button type="submit" disabled={loading} style={{ padding: '8px 20px', marginRight: 10 }}>
-            login
+          {loading ? 'Logging in...' : 'Login'}
         </button>
+        <span>Don't have an account? </span>
         <Link to="/signup">Sign Up</Link>
       </form>
     </div>
