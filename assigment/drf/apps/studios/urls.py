@@ -6,6 +6,6 @@ router=DefaultRouter()
 router.register('studio',StudioViewSet,basename='studio')
 router.register('studiomember',StudioMembershipViewSet,basename='studiomember')
 
-urlpattens=[
+urlpatterns=[
     path('',include(router.urls)),
 ]
