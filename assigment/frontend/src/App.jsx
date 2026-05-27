@@ -12,6 +12,8 @@ import ProjectList from './pages/project/ProjectList'
 import StageList from './pages/project/StageList'
 import TaskList from './pages/project/TaskList'
 import CreateTask from './pages/project/CreateTask'
+import CreateAttachment from './pages/attachment/CreatAttachment'
+import AttachmentList from './pages/attachment/AttachmentList'
 
 export default function App() {
   return (
@@ -32,6 +34,9 @@ export default function App() {
           <Route path='/stagelist'element={<StageList/>}/>
           <Route path='/tasklist'element={<TaskList/>}/>
           <Route path='/createtask'element={<CreateTask/>}/>
+          <Route path='/creaateattachment'element={<CreateAttachment/>}/>
+          <Route path='/attachmentlist'element={<AttachmentList/>}/>
+          
           
         </Route>
       </Routes>
