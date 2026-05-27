@@ -109,3 +109,80 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+main {
+  flex: 1;
+  padding: 30px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar nav {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+.footer {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+input,
+textarea,
+button {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 16px;
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.card {
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--code-bg);
+  box-shadow: var(--shadow);
+}

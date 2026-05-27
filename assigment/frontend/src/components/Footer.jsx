@@ -1,5 +1,7 @@
-export default function Footer(){
-    return(
-        <h1>this is the footer for now </h1>
+export default function Footer() {
+    return (
+        <footer className="footer">
+            <p>Creative Workflow Tracker © 2026</p>
+        </footer>
     )
 }
