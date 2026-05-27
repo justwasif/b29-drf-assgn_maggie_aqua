@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { createMembership } from "./StudioMembershipApi"
+import { createMembership } from "./StudioApi"
 import { useNavigate } from "react-router-dom"
 
 export default function CreateMembership() {

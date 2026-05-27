@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getMemberships } from "./StudioMembershipApi"
+import { getMemberships } from "./StudioApi"
 
 export default function MembershipList() {
 

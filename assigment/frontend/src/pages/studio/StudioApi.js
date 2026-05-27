@@ -39,7 +39,7 @@ export const createMembership = async (data) => {
     return response.data
 }
 
-export const getMembership=async ()=>{
+export const getMemberships=async ()=>{
     const response=await axios.get(`${APi}/studiomember/`,{
         headers:{
             Authorization:`Bearer ${token()}`
