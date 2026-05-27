@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { createMembership } from "./StudioMembershipApi"
+import { useNavigate } from "react-router-dom"
 
 export default function CreateMembership() {
+    const navigate=useNavigate()
 
     const [formData, setFormData] = useState({
         user: "",
@@ -24,6 +26,8 @@ export default function CreateMembership() {
         try {
 
             await createMembership(formData)
+            navigate('/membership')
+            
 
             console.log("Membership Created")
 
