@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import project, Task, Stage
+from .models import project, Task, Stage, projectMember, StageApproval
+
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,8 +15,21 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = ['id', 'project', 'title', 'description', 'priority', 'deadline', 'stage', 'assigned_to', 'created_by', 'created_at', 'updated_at']
         read_only_fields = ['created_by']
 
+
 class StageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stage
-        fields = ['id', 'project', 'name', 'order', 'created_by', 'created_at', 'updated_at']
-        read_only_fields = ['created_by']
+        fields = ['id', 'project', 'stage', 'created_at', 'updated_at']
+
+
+class ProjectMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = projectMember
+        fields = ['id', 'project', 'user', 'role', 'created_at', 'updated_at']
+
+
+class StageApprovalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StageApproval
+        fields = ['id', 'stage', 'proposed_by', 'approved_by', 'status', 'created_at', 'updated_at']
+        read_only_fields = ['proposed_by']
