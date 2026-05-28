@@ -4,7 +4,7 @@ from rest_framework.filters import SearchFilter
 from .models import project
 from .serializers import ProjectSerializer, TaskSerializer, StageSerializer
 from .models import Task, Stage, project
-from apps.users.permissions import IsProjectLeadorAdmin, IsClientReadOnly
+from apps.users.permissions import IsProjectLeadorAdmin, IsClientReadOnly,IsReviewer, IsTeamMember
 from apps.studios.models import Studio, StudioMembership
 
 
@@ -37,7 +37,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         # Get tasks in those studios
         return Task.objects.filter(project__studio__in=studio_ids).distinct()
     serializer_class = TaskSerializer
-    permission_classes = [IsClientReadOnly]
+    permission_classes = [IsClientReadOnly, IsReviewer, IsTeamMember]
 
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['project', 'stage', 'assigned_to']
@@ -58,7 +58,7 @@ class StageViewSet(viewsets.ModelViewSet):
         # Get stages in those studios
         return Stage.objects.filter(project__studio__in=studio_ids).distinct()
     serializer_class = StageSerializer
-    permission_classes = [IsClientReadOnly]
+    permission_classes = [IsReviewer, IsTeamMember]
 
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['project']

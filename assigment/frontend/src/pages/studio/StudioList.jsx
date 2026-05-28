@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { getStudios } from "./StudioApi"
+import { Link } from "react-router-dom"
 
 export default function StudioList() {
 
@@ -27,7 +28,13 @@ export default function StudioList() {
     return (
         <div>
 
-            <h1>Studios</h1>
+            <div className="page-header">
+                <h1>Studios</h1>
+
+                <Link to="/createstudio">
+                    <button>Create Studio</button>
+                </Link>
+            </div>
 
             {
                 studios.map((studio) => (
@@ -45,3 +52,4 @@ export default function StudioList() {
         </div>
     )
 }
+

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { getTasks } from "./proujectapi"
+import { Link } from "react-router-dom"
 
 export default function TaskList() {
 
@@ -27,7 +28,13 @@ export default function TaskList() {
     return (
         <div>
 
-            <h1>Tasks</h1>
+            <div className="page-header">
+                <h1>Tasks</h1>
+
+                <Link to="/createtask">
+                    <button>Create Task</button>
+                </Link>
+            </div>
 
             {
                 tasks.map((task) => (

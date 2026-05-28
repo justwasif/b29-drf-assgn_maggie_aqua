@@ -23,8 +23,8 @@ export default function Login() {
 
       const data = res.data
 
-      localStorage.setItem('accessToken', data.access)
-      localStorage.setItem('refreshToken', data.refresh)
+      localStorage.setItem('access', data.access)
+      localStorage.setItem('refresh', data.refresh)
 
       navigate('/', { replace: true })
 
