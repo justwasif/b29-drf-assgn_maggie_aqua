@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from .models import Notification
 from .serializers import NotificationSerializer
-from apps.users.permissions import IsClientReadOnly, IsReviewer, IsTeamMember
+from apps.users.permissions import IsTeamMember
 
 class NotificationViewSet(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer
