@@ -5,7 +5,7 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Discussion_Thread, Comment
 from .serializers import DiscussionThreadSerializer, CommentSerializer  
-from apps.users.permissions import IsProjectLeadorAdmin, IsClientReadOnly, IsReviewer, IsTeamMember
+from apps.users.permissions import IsClientReadOnly, IsReviewer, IsTeamMember
 
 class DiscussionThreadViewSet(viewsets.ModelViewSet):
     queryset = Discussion_Thread.objects.all()

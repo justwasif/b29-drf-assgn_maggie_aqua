@@ -72,7 +72,7 @@ export default function CreateAttachment() {
                     type="text"
                     name="file_url"
                     placeholder="Paste file url"
-                    
+                    value ={formData.file_url}
                     onChange={handleChange}
                 />
 

@@ -7,7 +7,7 @@ export default function CreateComment() {
 
     const [formData, setFormData] = useState({
         thread: "",
-        content: ""
+        message: ""
     })
 
     const handleChange = (e) => {
@@ -49,9 +49,9 @@ export default function CreateComment() {
                 />
 
                 <textarea
-                    name="content"
-                    placeholder="Comment Content"
-                    value={formData.content}
+                    name="message"
+                    placeholder="Comment Message"
+                    value={formData.message}
                     onChange={handleChange}
                 />
 
