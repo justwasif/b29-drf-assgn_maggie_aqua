@@ -1,55 +1,74 @@
-import { useEffect, useState } from "react"
-import { getStudios } from "./StudioApi"
-import { Link } from "react-router-dom"
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { getStudios, joinStudio, getMemberships } from './StudioApi'
 
 export default function StudioList() {
+  const [studios, setStudios] = useState([])
+  const [memberships, setMemberships] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [joining, setJoining] = useState(null)
 
-    const [studios, setStudios] = useState([])
+  useEffect(() => {
+    Promise.all([getStudios(), getMemberships()])
+      .then(([s, m]) => { setStudios(s); setMemberships(m) })
+      .catch(console.error)
+      .finally(() => setLoading(false))
+  }, [])
 
-    useEffect(() => {
+  const joinedStudioIds = new Set(memberships.map(m => m.studio))
 
-        const fetchStudios = async () => {
+  const handleJoin = async (studioId) => {
+    setJoining(studioId)
+    try {
+      await joinStudio(studioId)
+      const m = await getMemberships()
+      setMemberships(m)
+    } catch (e) {
+      alert(e.response?.data?.detail || 'Could not join studio')
+    } finally {
+      setJoining(null)
+    }
+  }
 
-            try {
+  if (loading) return <div className="loading">Loading studios…</div>
 
-                const data = await getStudios()
-                setStudios(data)
+  return (
+    <div className="page">
+      <div className="page-header">
+        <h1>Studios</h1>
+        <Link to="/studios/create" className="btn-primary">+ New Studio</Link>
+      </div>
 
-            } catch (error) {
+      {studios.length === 0 && (
+        <p className="empty">No studios yet. Create the first one!</p>
+      )}
 
-                console.log(error)
-            }
-        }
-
-        fetchStudios()
-
-    }, [])
-
-    return (
-        <div>
-
-            <div className="page-header">
-                <h1>Studios</h1>
-
-                <Link to="/createstudio">
-                    <button>Create Studio</button>
-                </Link>
+      <div className="card-grid">
+        {studios.map(studio => {
+          const isMember = joinedStudioIds.has(studio.id)
+          return (
+            <div key={studio.id} className="card">
+              <h3>{studio.name}</h3>
+              <p>{studio.description}</p>
+              <div className="card-actions">
+                {isMember ? (
+                  <Link to={`/studios/${studio.id}/projects`} className="btn-primary">
+                    View Projects →
+                  </Link>
+                ) : (
+                  <button
+                    className="btn-secondary"
+                    onClick={() => handleJoin(studio.id)}
+                    disabled={joining === studio.id}
+                  >
+                    {joining === studio.id ? 'Joining…' : 'Join Studio'}
+                  </button>
+                )}
+              </div>
             </div>
-
-            {
-                studios.map((studio) => (
-
-                    <div key={studio.id}>
-
-                        <h3>{studio.name}</h3>
-
-                        <p>{studio.description}</p>
-
-                    </div>
-                ))
-            }
-
-        </div>
-    )
+          )
+        })}
+      </div>
+    </div>
+  )
 }
-

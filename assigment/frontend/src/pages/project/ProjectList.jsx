@@ -1,56 +1,93 @@
-import { useEffect, useState } from "react"
-import { getProjects } from "./proujectapi"
-import { Link } from "react-router-dom"
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { getProjects, joinProject, getProjectMembers } from './proujectapi'
 
 export default function ProjectList() {
+  const { studioId } = useParams()
+  const [projects, setProjects] = useState([])
+  const [memberOf, setMemberOf] = useState(new Set())
+  const [loading, setLoading] = useState(true)
+  const [joining, setJoining] = useState(null)
 
-    const [projects, setProjects] = useState([])
+  const fetchData = async () => {
+    try {
+      const all = await getProjects()
+      const studioProjects = all.filter(p => String(p.studio) === String(studioId))
+      setProjects(studioProjects)
 
-    useEffect(() => {
+      // check membership for each project
+      const memberSets = await Promise.all(
+        studioProjects.map(p => getProjectMembers(p.id))
+      )
+      const currentUserId = JSON.parse(atob(localStorage.getItem('access').split('.')[1])).user_id
+      const joined = new Set()
+      studioProjects.forEach((p, i) => {
+        if (memberSets[i].some(m => m.user === currentUserId)) joined.add(p.id)
+      })
+      setMemberOf(joined)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
+    }
+  }
 
-        const fetchProjects = async () => {
+  useEffect(() => { fetchData() }, [studioId])
 
-            try {
+  const handleJoin = async (projectId) => {
+    setJoining(projectId)
+    try {
+      await joinProject(projectId)
+      await fetchData()
+    } catch (e) {
+      alert(e.response?.data?.detail || 'Could not join project')
+    } finally {
+      setJoining(null)
+    }
+  }
 
-                const data = await getProjects()
-                setProjects(data)
+  if (loading) return <div className="loading">Loading projects…</div>
 
-            } catch (error) {
+  return (
+    <div className="page">
+      <div className="breadcrumb">
+        <Link to="/studios">Studios</Link> / Projects
+      </div>
+      <div className="page-header">
+        <h1>Projects</h1>
+        <Link to={`/studios/${studioId}/projects/create`} className="btn-primary">+ New Project</Link>
+      </div>
 
-                console.log(error)
-            }
-        }
+      {projects.length === 0 && (
+        <p className="empty">No projects in this studio yet.</p>
+      )}
 
-        fetchProjects()
-
-    }, [])
-
-    return (
-        <div>
-
-            <div className="page-header">
-                <h1>Projects</h1>
-
-                <Link to="/createproject">
-                    <button>Create Project</button>
-                </Link>
+      <div className="card-grid">
+        {projects.map(project => {
+          const isMember = memberOf.has(project.id)
+          return (
+            <div key={project.id} className="card">
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <div className="card-actions">
+                {isMember ? (
+                  <Link to={`/projects/${project.id}`} className="btn-primary">
+                    Open Project →
+                  </Link>
+                ) : (
+                  <button
+                    className="btn-secondary"
+                    onClick={() => handleJoin(project.id)}
+                    disabled={joining === project.id}
+                  >
+                    {joining === project.id ? 'Joining…' : 'Join Project'}
+                  </button>
+                )}
+              </div>
             </div>
-
-            {
-                projects.map((project) => (
-
-                    <div key={project.id}>
-
-                        <h3>{project.title}</h3>
-
-                        <p>{project.description}</p>
-
-                        <p>Studio: {project.studio}</p>
-
-                    </div>
-                ))
-            }
-
-        </div>
-    )
+          )
+        })}
+      </div>
+    </div>
+  )
 }

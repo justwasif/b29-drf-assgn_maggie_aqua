@@ -1,51 +1,51 @@
-import { useEffect, useState } from "react"
-import { getStages } from "./proujectapi"
-import { useNavigate } from "react-router-dom"
+// import { useEffect, useState } from "react"
+// import { getStages } from "./proujectapi"
+// import { useNavigate } from "react-router-dom"
 
-export default function StageList() {
+// export default function StageList() {
     
 
-    const [stages, setStages] = useState([])
+//     const [stages, setStages] = useState([])
 
-    useEffect(() => {
+//     useEffect(() => {
 
-        const fetchStages = async () => {
+//         const fetchStages = async () => {
 
-            try {
+//             try {
 
-                const data = await getStages()
-                setStages(data)
+//                 const data = await getStages()
+//                 setStages(data)
 
-            } catch (error) {
+//             } catch (error) {
 
-                console.log(error)
-            }
-        }
+//                 console.log(error)
+//             }
+//         }
 
-        fetchStages()
+//         fetchStages()
 
-    }, [])
+//     }, [])
 
-    return (
-        <div>
+//     return (
+//         <div>
 
-            <h1>Stages</h1>
+//             <h1>Stages</h1>
 
-            {
-                stages.map((stage) => (
+//             {
+//                 stages.map((stage) => (
 
-                    <div key={stage.id}>
+//                     <div key={stage.id}>
 
-                        <h3>{stage.name}</h3>
+//                         <h3>{stage.name}</h3>
 
-                        <p>Project: {stage.project}</p>
+//                         <p>Project: {stage.project}</p>
 
-                        <p>Order: {stage.order}</p>
+//                         <p>Order: {stage.order}</p>
 
-                    </div>
-                ))
-            }
+//                     </div>
+//                 ))
+//             }
 
-        </div>
-    )
-}
+//         </div>
+//     )
+// }

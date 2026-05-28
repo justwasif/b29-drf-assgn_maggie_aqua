@@ -1,49 +1,49 @@
-import { useEffect, useState } from "react"
-import { getMemberships } from "./StudioApi"
+// import { useEffect, useState } from "react"
+// import { getMemberships } from "./StudioApi"
 
-export default function MembershipList() {
+// export default function MembershipList() {
 
-    const [memberships, setMemberships] = useState([])
+//     const [memberships, setMemberships] = useState([])
 
-    useEffect(() => {
+//     useEffect(() => {
 
-        const fetchMemberships = async () => {
+//         const fetchMemberships = async () => {
 
-            try {
+//             try {
 
-                const data = await getMemberships()
-                setMemberships(data)
+//                 const data = await getMemberships()
+//                 setMemberships(data)
 
-            } catch (error) {
+//             } catch (error) {
 
-                console.log(error)
-            }
-        }
+//                 console.log(error)
+//             }
+//         }
 
-        fetchMemberships()
+//         fetchMemberships()
 
-    }, [])
+//     }, [])
 
-    return (
-        <div>
+//     return (
+//         <div>
 
-            <h1>Memberships</h1>
+//             <h1>Memberships</h1>
 
-            {
-                memberships.map((member) => (
+//             {
+//                 memberships.map((member) => (
 
-                    <div key={member.id}>
+//                     <div key={member.id}>
 
-                        <p>User: {member.user}</p>
+//                         <p>User: {member.user}</p>
 
-                        <p>Studio: {member.studio}</p>
+//                         <p>Studio: {member.studio}</p>
 
-                        <p>Role: {member.role}</p>
+//                         <p>Role: {member.role}</p>
 
-                    </div>
-                ))
-            }
+//                     </div>
+//                 ))
+//             }
 
-        </div>
-    )
-}
+//         </div>
+//     )
+// }

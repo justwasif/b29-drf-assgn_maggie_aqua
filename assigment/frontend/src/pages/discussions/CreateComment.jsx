@@ -1,64 +1,64 @@
-import { useState } from "react"
-import { createComment } from "./DiscussionApi"
-import { useNavigate } from "react-router-dom"
+// import { useState } from "react"
+// import { createComment } from "./DiscussionApi"
+// import { useNavigate } from "react-router-dom"
 
-export default function CreateComment() {
-    const navigate = useNavigate()
+// export default function CreateComment() {
+//     const navigate = useNavigate()
 
-    const [formData, setFormData] = useState({
-        thread: "",
-        message: ""
-    })
+//     const [formData, setFormData] = useState({
+//         thread: "",
+//         message: ""
+//     })
 
-    const handleChange = (e) => {
+//     const handleChange = (e) => {
 
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
-    }
+//         setFormData({
+//             ...formData,
+//             [e.target.name]: e.target.value
+//         })
+//     }
 
-    const handleSubmit = async (e) => {
+//     const handleSubmit = async (e) => {
 
-        e.preventDefault()
+//         e.preventDefault()
 
-        try {
+//         try {
 
-            await createComment(formData)
-            navigate("/commentlist")
+//             await createComment(formData)
+//             navigate("/commentlist")
 
-        } catch (error) {
+//         } catch (error) {
 
-            console.log(error)
-        }
-    }
+//             console.log(error)
+//         }
+//     }
 
-    return (
-        <div>
+//     return (
+//         <div>
 
-            <h1>Create Comment</h1>
+//             <h1>Create Comment</h1>
 
-            <form onSubmit={handleSubmit}>
+//             <form onSubmit={handleSubmit}>
 
-                <input
-                    type="number"
-                    name="thread"
-                    placeholder="Thread ID"
-                    value={formData.thread}
-                    onChange={handleChange}
-                />
+//                 <input
+//                     type="number"
+//                     name="thread"
+//                     placeholder="Thread ID"
+//                     value={formData.thread}
+//                     onChange={handleChange}
+//                 />
 
-                <textarea
-                    name="message"
-                    placeholder="Comment Message"
-                    value={formData.message}
-                    onChange={handleChange}
-                />
+//                 <textarea
+//                     name="message"
+//                     placeholder="Comment Message"
+//                     value={formData.message}
+//                     onChange={handleChange}
+//                 />
 
-                <button type="submit">Add Comment</button>
+//                 <button type="submit">Add Comment</button>
 
-            </form>
+//             </form>
 
-        </div>
-    )
-}
+//         </div>
+//     )
+// }
