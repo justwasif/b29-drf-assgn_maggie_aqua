@@ -189,3 +189,6 @@ http://localhost:5173
 ```
 
 ---
+
+## Link for the Demo Video
+https://drive.google.com/drive/folders/1U-QjVqgcviTTp1XniIGKT0SVZfTwAA7C?usp=sharing
