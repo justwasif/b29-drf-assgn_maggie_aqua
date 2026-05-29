@@ -22,4 +22,15 @@ export const createTask = data => api.post('/tasks/', data).then(r => r.data)
 export const getStages = projectId =>
   api.get(`/stages/?project=${projectId}`).then(r => r.data)
 export const createStage = data => api.post('/stages/', data).then(r => r.data)
+export const moveStage = (projectId, stage) =>
+  api.post(`/projects/${projectId}/move-stage/`, { stage }).then(r => r.data)
+export const proposeStage = (projectId, stageId) =>
+  api.post(`/projects/${projectId}/propose-stage/`, { stage_id: stageId }).then(r => r.data)
+export const getStageApprovals = (stageId) =>
+  api.get(`/stageapprovals/?stage=${stageId}`).then(r => r.data)
+export const approveStageProposal = (approvalId) =>
+  api.post(`/stageapprovals/${approvalId}/approve/`).then(r => r.data)
+export const rejectStageProposal = (approvalId) =>
+  api.post(`/stageapprovals/${approvalId}/reject/`).then(r => r.data)
+
 

@@ -48,7 +48,7 @@ export default function Login() {
             required
           />
           <button type="submit" disabled={loading}>
-            {loading ? 'Signing in…' : 'Sign In'}
+            {loading ? 'logoing in…' : 'log In'}
           </button>
         </form>
         <p className="auth-footer">

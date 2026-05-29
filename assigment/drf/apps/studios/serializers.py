@@ -13,4 +13,5 @@ class StudioMembershipSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudioMembership
         fields = ['id', 'user', 'studio', 'role', 'created_at', 'updated_at']
-        read_only_fields = ['user', 'created_at', 'updated_at']
+        # FIX: same issue as ProjectMember — user and role set in perform_create
+        read_only_fields = ['user', 'role', 'created_at', 'updated_at']

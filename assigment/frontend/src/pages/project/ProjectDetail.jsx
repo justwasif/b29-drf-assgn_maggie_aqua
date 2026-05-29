@@ -24,7 +24,6 @@ export default function ProjectDetail() {
         setStats({
           tasks: tasks.length,
           attachments: attachments.filter(a => {
-            // filter by tasks belonging to this project
             return tasks.some(t => t.id === a.task)
           }).length,
           stages: stages.length,
@@ -45,21 +44,21 @@ export default function ProjectDetail() {
     {
       to: `/projects/${projectId}/tasks`,
       label: 'Tasks',
-      icon: '✓',
+      icon: '',
       count: stats.tasks,
       desc: 'View and manage all tasks',
     },
     {
       to: `/projects/${projectId}/attachments`,
       label: 'Attachments',
-      icon: '📎',
+      icon: '',
       count: stats.attachments,
       desc: 'Files and documents',
     },
     {
       to: `/projects/${projectId}/discussions`,
       label: 'Discussions',
-      icon: '💬',
+      icon: '',
       count: stats.stages,
       desc: 'Threads and comments per stage',
     },

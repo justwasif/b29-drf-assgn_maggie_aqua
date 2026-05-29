@@ -1,30 +1,35 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getStudios, joinStudio, getMemberships } from './StudioApi'
 
 export default function StudioList() {
+  const navigate = useNavigate()
   const [studios, setStudios] = useState([])
-  const [memberships, setMemberships] = useState([])
+  const [joinedIds, setJoinedIds] = useState(new Set())
   const [loading, setLoading] = useState(true)
   const [joining, setJoining] = useState(null)
 
   useEffect(() => {
     Promise.all([getStudios(), getMemberships()])
-      .then(([s, m]) => { setStudios(s); setMemberships(m) })
+      .then(([s, m]) => {
+        setStudios(s)
+        setJoinedIds(new Set(m.map(x => x.studio)))
+      })
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [])
-
-  const joinedStudioIds = new Set(memberships.map(m => m.studio))
 
   const handleJoin = async (studioId) => {
     setJoining(studioId)
     try {
       await joinStudio(studioId)
-      const m = await getMemberships()
-      setMemberships(m)
+      navigate(`/studios/${studioId}/projects`)
     } catch (e) {
-      alert(e.response?.data?.detail || 'Could not join studio')
+      if (e.response?.status === 400) {
+        navigate(`/studios/${studioId}/projects`)
+      } else {
+        alert(e.response?.data?.detail || 'Could not join studio')
+      }
     } finally {
       setJoining(null)
     }
@@ -45,7 +50,7 @@ export default function StudioList() {
 
       <div className="card-grid">
         {studios.map(studio => {
-          const isMember = joinedStudioIds.has(studio.id)
+          const isMember = joinedIds.has(studio.id)
           return (
             <div key={studio.id} className="card">
               <h3>{studio.name}</h3>

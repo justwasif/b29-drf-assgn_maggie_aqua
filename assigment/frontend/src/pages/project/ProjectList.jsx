@@ -1,46 +1,64 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { getProjects, joinProject, getProjectMembers } from './proujectapi'
-
+import { Link, useParams, useNavigate } from 'react-router-dom'
+import { getProjects, joinProject } from './proujectapi'
+import { getCurrentUser } from '../../components/auth/api'
 export default function ProjectList() {
   const { studioId } = useParams()
+  const navigate = useNavigate()
   const [projects, setProjects] = useState([])
   const [memberOf, setMemberOf] = useState(new Set())
+  const [currentUserId, setCurrentUserId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [joining, setJoining] = useState(null)
 
-  const fetchData = async () => {
+  const fetchData = async (userId) => {
     try {
       const all = await getProjects()
       const studioProjects = all.filter(p => String(p.studio) === String(studioId))
       setProjects(studioProjects)
 
-      // check membership for each project
-      const memberSets = await Promise.all(
+      const memberResults = await Promise.all(
         studioProjects.map(p => getProjectMembers(p.id))
       )
-      const currentUserId = JSON.parse(atob(localStorage.getItem('access').split('.')[1])).user_id
       const joined = new Set()
       studioProjects.forEach((p, i) => {
-        if (memberSets[i].some(m => m.user === currentUserId)) joined.add(p.id)
+        if (memberResults[i].some(m => m.user === userId)) {
+          joined.add(p.id)
+        }
       })
       setMemberOf(joined)
     } catch (e) {
       console.error(e)
-    } finally {
-      setLoading(false)
     }
   }
 
-  useEffect(() => { fetchData() }, [studioId])
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const user = await getCurrentUser()
+        setCurrentUserId(user.id)
+        await fetchData(user.id)
+      } catch (e) {
+        console.error(e)
+      } finally {
+        setLoading(false)
+      }
+    }
+    init()
+  }, [studioId])
 
   const handleJoin = async (projectId) => {
     setJoining(projectId)
     try {
       await joinProject(projectId)
-      await fetchData()
+      navigate(`/projects/${projectId}`)
     } catch (e) {
-      alert(e.response?.data?.detail || 'Could not join project')
+      const msg = e.response?.data?.detail || 'Could not join project'
+      if (e.response?.status === 400) {
+        navigate(`/projects/${projectId}`)
+      } else {
+        alert(msg)
+      }
     } finally {
       setJoining(null)
     }
