@@ -11,7 +11,7 @@ from .serializers import (
 )
 from apps.users.permissions import IsProjectLeadorAdmin, IsClientReadOnly, IsReviewer
 from apps.studios.models import StudioMembership
-
+from apps.notifications.services import notify_task_assigned, notify_stage_approval_requested
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
@@ -98,7 +98,8 @@ class TaskViewSet(viewsets.ModelViewSet):
         return Task.objects.filter(project__studio__in=studio_ids).distinct()
 
     def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+        task = serializer.save(created_by=self.request.user)
+        notify_task_assigned(task, self.request.user)
 
 
 class StageViewSet(viewsets.ModelViewSet):
@@ -171,7 +172,8 @@ class StageApprovalViewSet(viewsets.ModelViewSet):
         return StageApproval.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save(proposed_by=self.request.user)
+        stage_approval = serializer.save(proposed_by=self.request.user)
+        notify_stage_approval_requested(stage_approval, self.request.user)
 
     @action(detail=True, methods=['post'])
     def approve(self, request, pk=None):
