@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className="footer">
-      <p>footer for now</p>
+      <p>Creative Workflow Tracker © 2026</p>
     </footer>
   )
 }
