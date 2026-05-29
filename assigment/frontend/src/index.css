@@ -206,13 +206,19 @@ button:hover {
 }
 
 .primary-card{
-  max-width: 700px;
+    max-width: 700px;
   text-align: center;
   padding: 50px;
   border-radius: 20px;
   background: #1e293b;
   border: 1px solid #334155;
   box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+.primary-card h1 {
+  margin: 0;
+  font-size: 36px;
+  color: #c084fc;
 }
 
 .primary-card p {
@@ -229,7 +235,27 @@ button:hover {
   border-top: 1px solid #334155;
 }
 
-.footer p {
+.footer p{
   margin-bottom: 10px;
   color: #c084fc;
+}
+
+.auth-card {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 14px;
+  background: #1e293b;
+  border: 1px solid #334155;
+}
+
+.auth-card h2 {
+  margin-top: 0;
+  color: #c084fc;
+  text-align: center;
+}
+
+.auth-sub {
+  text-align: center;
+  margin-top: 20px;
 }

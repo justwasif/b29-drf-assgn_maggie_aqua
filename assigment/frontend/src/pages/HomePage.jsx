@@ -14,7 +14,7 @@ export default function HomePage() {
                     from one place.
                 </p>
 
-                <Link to="/createstudio">
+                <Link to="/studios">
                     <button>
                         Start Creating
                     </button>
