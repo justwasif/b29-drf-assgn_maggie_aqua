@@ -1,6 +1,6 @@
 import axios from 'axios'
  
-const BASE = 'http://127.0.0.1:8000/api'
+const BASE = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api'
  
 const api = axios.create({ baseURL: BASE })
  
@@ -32,5 +32,4 @@ export const approveStageProposal = (approvalId) =>
   api.post(`/stageapprovals/${approvalId}/approve/`).then(r => r.data)
 export const rejectStageProposal = (approvalId) =>
   api.post(`/stageapprovals/${approvalId}/reject/`).then(r => r.data)
-
 
