@@ -106,12 +106,19 @@ main {
 /* Footer */
 
 .footer {
+  margin-top: auto;
+  padding: 30px 20px;
   text-align: center;
-  padding: 18px;
   background: #111827;
   border-top: 1px solid #334155;
-  margin-top: 40px;
 }
+
+.footer p{
+  margin-bottom: 10px;
+  color: #c084fc;
+}
+
+
 
 /* Forms */
 
@@ -227,19 +234,6 @@ button:hover {
   font-size: 18px;
 }
 
-.footer {
-  margin-top: auto;
-  padding: 30px 20px;
-  text-align: center;
-  background: #111827;
-  border-top: 1px solid #334155;
-}
-
-.footer p{
-  margin-bottom: 10px;
-  color: #c084fc;
-}
-
 .auth-card {
   max-width: 400px;
   margin: 40px auto;
@@ -258,4 +252,100 @@ button:hover {
 .auth-sub {
   text-align: center;
   margin-top: 20px;
+}
+
+/* Project Detail Page */
+
+.breadcrumb {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.breadcrumb a {
+  color: #c084fc;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.project-hero {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.project-hero h1 {
+  margin: 0 0 10px;
+  color: #c084fc;
+}
+
+.project-hero p {
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* Cards */
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.section-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 24px;
+  border-radius: 16px;
+
+  background: #1e293b;
+  border: 1px solid #334155;
+
+  text-decoration: none;
+  color: white;
+
+  transition: all 0.2s ease;
+}
+
+.section-card:hover {
+  transform: translateY(-4px);
+  border-color: #9333ea;
+  box-shadow: 0 8px 20px rgba(147,51,234,0.25);
+}
+
+.section-card h3 {
+  margin: 0 0 6px;
+  color: #c084fc;
+}
+
+.section-card p {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.section-icon {
+  font-size: 28px;
+  margin-right: 16px;
+}
+
+.section-arrow {
+  font-size: 24px;
+  color: #c084fc;
+}
+
+/* Loading */
+
+.loading {
+  text-align: center;
+  margin-top: 80px;
+  font-size: 20px;
 }
