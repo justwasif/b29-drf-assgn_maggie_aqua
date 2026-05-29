@@ -22,7 +22,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         if not user.is_authenticated:
             return project.objects.none()
         if user.role == 'admin':
-            return project.objects.all()
+            return project.objects.filter(studio__created_by=user)
         studio_ids = StudioMembership.objects.filter(user=user).values_list('studio_id', flat=True)
         return project.objects.filter(studio__in=studio_ids).distinct()
 
@@ -93,7 +93,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         if not user.is_authenticated:
             return Task.objects.none()
         if user.role == 'admin':
-            return Task.objects.all()
+            return Task.objects.filter(project__studio__created_by=user)
         studio_ids = StudioMembership.objects.filter(user=user).values_list('studio_id', flat=True)
         return Task.objects.filter(project__studio__in=studio_ids).distinct()
 
@@ -112,7 +112,7 @@ class StageViewSet(viewsets.ModelViewSet):
         if not user.is_authenticated:
             return Stage.objects.none()
         if user.role == 'admin':
-            return Stage.objects.all()
+            return Stage.objects.filter(project__studio__created_by=user)
         studio_ids = StudioMembership.objects.filter(user=user).values_list('studio_id', flat=True)
         return Stage.objects.filter(project__studio__in=studio_ids).distinct()
 
@@ -130,7 +130,7 @@ class ProjectMemberViewSet(viewsets.ModelViewSet):
         if not user.is_authenticated:
             return projectMember.objects.none()
         if user.role == 'admin':
-            return projectMember.objects.all()
+            return projectMember.objects.filter(project__studio__created_by=user)
         studio_ids = StudioMembership.objects.filter(user=user).values_list('studio_id', flat=True)
         return projectMember.objects.filter(project__studio__in=studio_ids).distinct()
 

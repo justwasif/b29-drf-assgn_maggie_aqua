@@ -12,7 +12,6 @@ api.interceptors.request.use(cfg => {
  
 export const getStudios = () => api.get('/studio/').then(r => r.data)
 export const createStudio = data => api.post('/studio/', data).then(r => r.data)
-export const joinStudio = (studioId) =>
-  api.post('/studiomember/', { studio: studioId }).then(r => r.data)
-
-export const getMemberships = () => api.get('/studiomember/').then(r => r.data)
+export const getUsers = () => api.get('/users/list/').then(r => r.data)
+export const createStudioMembership = data =>
+  api.post('/studiomember/', data).then(r => r.data)
